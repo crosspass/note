@@ -3,9 +3,9 @@
 `DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"`
 
 #shell基础知识
-1. 3中条件判断方式
+###条件判断方式
 
-+ 条件表达式是命令
+ + 条件表达式是命令
 ```shell
 if
 command
@@ -20,18 +20,18 @@ then
 ...
 fi
 ```
-+ 条件表达式是test测试真价值表达式
+ + 条件表达式是test测试真价值表达式
 ```shell
 if test express
 then
 ...
 fi
 ```
-+ 条件表达式的快捷方式
+ + 条件表达式的快捷方式
 ```shell
 [ express] && command
 ```
-+ shell的if和c的if的区别
+ + shell的if和c的if的区别
 
 shell的if|c的if
 ---------|-----
