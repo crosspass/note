@@ -1,14 +1,43 @@
+#经常用到的命令
 1. 获取脚本运行的路径
 `DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"`
 
+#shell基础知识
+1. 3中条件判断方式
 
++ 条件表达式是命令
+```shell
+if
+command
+then
+...
+fi
+```
+ + 条件表达式是真假值表达式
+```shell
+if [ express ]
+then
+...
+fi
+```
++ 条件表达式是test测试真价值表达式
+```shell
+if test express
+then
+...
+fi
+```
++ 条件表达式的快捷方式
+```shell
+[ express] && command
+```
++ shell的if和c的if的区别
 
-
-
-
-
-
-
+shell的if|c的if
+---------|-----
+0为真|正好相反0为假
+不支持整型变量直接if必须`if [ i -ne 0 ]` | 支持整型变量if(i)
+支持字符串变量 `if [ str ]` | 不支持字符串变量
 
 #遇到的问题：
 1. 运行go的执行单元测试用例时，手工运行shell正常，但是在crontab中运行就出问题
