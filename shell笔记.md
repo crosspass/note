@@ -39,6 +39,43 @@ shell的if|c的if
 不支持整型变量直接if必须`if [ i -ne 0 ]` | 支持整型变量if(i)
 支持字符串变量 `if [ str ]` | 不支持字符串变量
 
++ 以多条command或函数为if的条件
+```shell
+echo -n "input:"
+read user
+if
+#多条命令之间相当于“and”
+grep $user /etc/passwd >/tmp/null      
+who -u | grep $user
+#上边的指令都执行成功,返回值$?为0，0为真，运行then
+then
+ echo "$user has logged"
+else     指令执行失败，$?为1，运行else                            
+ echo "$user has not logged"
+fi  
+```
+###条件表达式
++ 文件表达式
+  + `[ -f file ]` 文件存在
+  + `[ -d dirname ]` 目录存在
+  + `[ -s file ]` 文件存在且非空
+  + `[ -r file ]` 文件存在且可读
+  + `[ -w file ]` 文件存在且可写
+  + `[ -x file ]` 文件存在且可执行
++ 整数变量表达式
+  + `[ i -eq j ]` 相等
+  + `[ i -ne j ]` 不等于
+  + `[ i -le j ]` 小于或等于
+  + `[ i -ge j ]` 大于或等于
+  + `[ i -lt j ]` 小于
+  + `[ i -gt j ]` 大于
++ 字符串变量表达式
+  + `[ str1 = str2 ]` 等于，×字符串允许用等号做比较×
+  + `[ str1 != str2 ]` 不等于
+  + `[ -n str ]` 非空字符串返回0
+  + `[ -z str ]` 空字符串返回0
+  + `[ str ] ` 同 `[ -n str]`
+
 #遇到的问题：
 1. 运行go的执行单元测试用例时，手工运行shell正常，但是在crontab中运行就出问题
   + 初步怀疑是执行的路径问题，更改为在脚本中切换到脚本的文件所在的路径，问题还是不能解决。
