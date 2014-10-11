@@ -50,7 +50,8 @@ who -u | grep $user
 #上边的指令都执行成功,返回值$?为0，0为真，运行then
 then
  echo "$user has logged"
-else     指令执行失败，$?为1，运行else                            
+#指令执行失败，$?为1，运行else 
+else                           
  echo "$user has not logged"
 fi  
 ```
