@@ -1,6 +1,8 @@
 #经常用到的命令
 1. 获取脚本运行的路径
 `DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"`
+2. 生成ssh连接的密码`ssh-keygen -t rsa` 上述命令执行后，隐藏目录~/.ssh下会出现两个文件：idrsa和idrsa.pub。其中，idrsa.pub为
+公钥文件。将该文件的内容追加到对端主机linuxb上~/.ssh目录下的authorizedkeys文件中，若该文件不存在，可自行创建之。
 
 #shell基础知识
 ###条件判断方式
