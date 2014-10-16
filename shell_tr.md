@@ -1,5 +1,5 @@
 #tr
-tr是用来从标准输入中通过替换或删除操作进行字符转换.tr主要用于删除文件中控制字符或进行字符转换.使用tr时要转换两个字符串:字符串1用于查询,字符串2用于处理各种转换.tr刚执行时,字符串1中的字符被映射到字符串2中的字符,然后转换操作开始.
+tr是用来从标准输入中通过替换或删除操作进行字符转换，tr主要用于删除文件中控制字符或进行字符转换。使用tr时要转换两个字符串：字符串1用于查询，字符串2用于处理各种转换。tr刚执行时，字符串1中的字符被映射到字符串2中的字符，然后转换操作开始.
 
 ###一般格式:
   ```shell
@@ -15,27 +15,36 @@ tr是用来从标准输入中通过替换或删除操作进行字符转换.tr主
   + /octal:一个三位的八进制数,对应有效的ASCII字符 
   + \[O*n\]:表示字符O重复出现指定次数n,例[O*2]表示匹配[OO]字符串
 ###去除重复出现的字符
+```
 $more cops.txt
-And the cowwwwws went homeeeeeeee Or did theyyyy 
-如果要去除重复字符或将其压缩在一起,可以使用-s选项,因为都是字母,故使用[a-z]: 
+And the cowwwwws went homeeeeeeee Or did theyyyy
+```
+*如果要去除重复字符或将其压缩在一起,可以使用-s选项,因为都是字母,故使用[a-z]: 
+```
 $tr -s "[a-z]"&lt;cops.txt 
 And the cows went home Or did they
+```
 ###删除空行
 可使用-s来作这项工作.换行的八进制表示位\012,例: 
+```
 $more plane.txt 
 and 0500 399999 2773888 or 093999 3766666 data 39
 $tr -s "[\012]"&lt;plane.txt and 0500 399999 2773888 or 093999 3766666 data 39
+```
 ###大小写转换
    除了删除控制字符,转换大小写是tr最常用的功能.为此需指定即将转换的小写字符[a-z]和转换结果[A-Z]
-例1:tr从一个包含大小写字母的字符串中接受输入:
+  + 例1:tr从一个包含大小写字母的字符串中接受输入:
+```
 $echo "May Day,May Day,Going Down..."|tr "[a-z]" "[A-Z]" MAY DAY,MAY DAY,GOING DOWN...
-同样也可以使用字符类[:lower:]和[:upper:] 
+```
+ + 同样也可以使用字符类[:lower:]和[:upper:] 
+```
 $echo "May Day,May Day,Going Down..."|tr "[:lower:]" "[:upper:]" MAY DAY,MAY DAY,GOING DOWN...
 $echo "MAY DAY,MAY DAY,GOING DOWN..."|tr "[A-Z]" "[a-z]" may day,may day,going down...
-或者也可以使用字符类[:upper:]和[:lower:] 
-$echo "MAY DAY,MAY DAY,GONING DOWN..."|tr "[:upper:]" "[:lower:]" may day,may day,going down...
+```
 ###删除指定字符
     偶尔会从下载文件中删除之包含字母或数字的列.需要结合使用-c和-s选项来完成此功能.下面的文件包含一个星期的日程表.任务是从其中删除所有数字,之保留日期.日期有大写,也有小写格式.因此需指定两个字符范围[a-z]和[A-Z],命令tr -cs "[a-z][A-Z]""[\012*]"将文件每行所有不包含在[a-z]或[A-Z]的字符串放在字符串1中并转换为一新行.-s选项表明压缩所有新行,-c表明保留所有字母不动:
+```
 $more diary.txt
 monday 10:50 
 Tuesday 15:30 
@@ -43,3 +52,4 @@ wednesday 15:30
 thurday 10:30 
 Friday 09:20
 $tr -cs "[a-z][A-Z]" "[\012*]"&lt;diary.txt
+```
