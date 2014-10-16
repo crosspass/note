@@ -19,7 +19,7 @@ tr是用来从标准输入中通过替换或删除操作进行字符转换，tr�
 $more cops.txt
 And the cowwwwws went homeeeeeeee Or did theyyyy
 ```
-*如果要去除重复字符或将其压缩在一起,可以使用-s选项,因为都是字母,故使用[a-z]: 
+*如果要去除重复字符或将其压缩在一起，可以使用-s选项，因为都是字母，故使用[a-z]: 
 ```
 $tr -s "[a-z]" <cops.txt 
 And the cows went home Or did they
@@ -29,13 +29,15 @@ And the cows went home Or did they
 ```
 $more plane.txt 
 and 0500 399999 2773888 or
+
+
 093999 3766666 data 39
 $tr -s "[\012]"<plane.txt
 and 0500 399999 2773888 or 093999 3766666 data 39
 ```
 ###大小写转换
-   除了删除控制字符,转换大小写是tr最常用的功能.为此需指定即将转换的小写字符[a-z]和转换结果[A-Z]
-  + 例1:tr从一个包含大小写字母的字符串中接受输入:
+  除了删除控制字符，转换大小写是tr最常用的功能，为此需指定即将转换的小写字符[a-z]和转换结果[A-Z]
+  例1，tr从一个包含大小写字母的字符串中接受输入：
 ```
 $echo "May Day,May Day,Going Down..."|tr "[a-z]" "[A-Z]" MAY DAY,MAY DAY,GOING DOWN...
 ```
