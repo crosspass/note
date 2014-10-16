@@ -19,3 +19,4 @@
 + ledis按照其默认的配置文件启动服务后，远程机器不能访问，后通过修改ledis.conf中的server的addr，将127.0.0.1修改为0.0.0.0后即可，这个问题很困惑需要查看linux的相关书籍
 + ledis需要安装rocksdb时，安装rocksdb时环境出现了问题
   + gcc的版本太低通过http://superuser.com/questions/381160/how-to-install-gcc-4-7-x-4-8-x-on-centos安装gcc4.7.2，然后在github.com上下载最新的rocksdb的源代码到/usr/local/rocksdb目录下，编译出来的lrocksdb的lrocksdb.so文件存放在/usr/local/rocksdb目录和ledis默认的环境变量中设置的lrocksdb的链接库不一致，需要在/usr/local/rocksdb目录先创建lib目录，然后把目录下的lrocksdb移动到/usr/local/rocksdb/lib目录下
+  学习sed的链接http://sed.sourceforge.net/sed1line_zh-CN.html
