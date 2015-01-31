@@ -33,9 +33,12 @@ select some lines and press keyboard 2>,then selected lines will indentation 2 t
 
 `Ex`                  : display directory files
 
-buffer explore
 
-bufexplorer.vim,http://www.vim.org/script.php?script_id=42
+# plugin
+
+1. buffer explore
+
+'bufexplorer.vim,http://www.vim.org/script.php?script_id=42'
 
 `\be`                             : list buffers in current buffer explore
 
