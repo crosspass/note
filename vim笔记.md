@@ -38,8 +38,8 @@ select some lines and press keyboard 2>,then selected lines will indentation 2 t
 
 1. buffer explore
 
-'bufexplorer.vim,http://www.vim.org/script.php?script_id=42'
+    'bufexplorer.vim,http://www.vim.org/script.php?script_id=42'
 
-`\be`                             : list buffers in current buffer explore
+   `\be`                             : list buffers in current buffer explore
 
-`\bs`                             : list buffers op split explore
+   `\bs`                             : list buffers op split explore
