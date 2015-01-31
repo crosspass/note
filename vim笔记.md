@@ -21,22 +21,22 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 
 # tips
 
-<C-N><C-P>          : isert mode word autocomplete
+`<C-N><C-P>`          : isert mode word autocomplete
 
-<C-X><C-L>          : inser mode line autocomplete
+`<C-X><C-L>`          : inser mode line autocomplete
 
-/<C-R><C-W>         : search <cword>
+`/<C-R><C-W>`         : search <cword>
 
-/<C-R><C-A>         : search <cWORD>
+`/<C-R><C-A>`         : search <cWORD>
 
 select some lines and press keyboard 2>,then selected lines will indentation 2 tab
 
-Ex                  : display directory files
+`Ex`                  : display directory files
 
 buffer explore
 
 bufexplorer.vim,http://www.vim.org/script.php?script_id=42
 
-\\be                             : list buffers in current buffer explore
+`\be`                             : list buffers in current buffer explore
 
-\\bs                             : list buffers op split explore
+`\bs`                             : list buffers op split explore
