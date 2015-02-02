@@ -119,11 +119,20 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 " 译注：# 可以全文查找与光标处的狭义字相匹配的字，
 " 这在查找函数原型和实现，或者变量使用的时候很有用
 
-`:vnoremap < <gv`
-" 译释：:vnoremap 重定义了visual模式下 < 符号的含义 把它定义成 <gv 即：先<向外缩进，然后gv重新选择上一次选择了的区域这样在visual模式下就可以实现连续按<而连续缩进了
+`:vnoremap < <gv` " 译释：:vnoremap 重定义了visual模式下 < 符号的含义 把它定义成 <gv 即：先<向外缩进，然后gv重新选择上一次选择了的区域这样在visual模式下就可以实现连续按<而连续缩进了
 
-`:vnoremap > >gv`
-" 同上，内缩
+`:vnoremap > >gv` " 同上，内缩
+
+" 在visual模式下查找
+`:vmap g/ y/<C-R>\"<CR>`       :匹配选中的高亮文字译释：vmap是在visual模式下的键盘映射映射了g/这个命令组合y把选中的高亮文字写入匿名register \"
+
+" / 打开搜索模式
+
+" <C-R> 准备粘贴register
+
+" \" 粘贴了\"\"中的内容
+
+" <CR> 回车，执行
 
 # plugin
 
