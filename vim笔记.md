@@ -106,23 +106,24 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 
 `:sball`           : 把当前所有含有可编辑文件的buffer显示到一个分割窗口中              : (偶该考虑把super翻译成 高级指令 了,ft)
 
-`:map   <F5> :ls<CR>:e` # : 在normal模式下按F5键，则会显示所有含有一个\r\n                 : 可编辑文件的buffer，然后提示你输入buffer的序号，
-                 : 输入后回车，则编辑这个buffer
-" 译注：这是一个键盘绑定\r\n:set hidden      : 允许不保存buffer而切换buffer (w/o=without)
+`:map   <F5> :ls<CR>:e` : 在normal模式下按F5键，则会显示所有含有一个可编辑文件的buffer，然后提示你输入buffer的序号，输入后回车，则编辑这个buffer
 
-`:map   <F5> :ls<CR>:e`  : 在normal模式下按F5键，则会显示所有含有一个 可编辑文件的buffer，然后提示你输入buffer的序号输入后回车，则编辑这个buffer
+`:set hidden`      : 允许不保存buffer而切换buffer (w/o=without)
 
-" 译注：这是一个键盘绑定\r\n:set hidden      : 允许不保存buffer而切换buffer (w/o=without)
 ----------------------------------------
-" 在分割窗口中快速切换
-`:map <C-J> <C-W>j<C-W>_`
-" 译注：原文此处有误，前面应该加上冒号
-# 这是一个键盘绑定，把Ctrl-J定义成切换到下一个窗口并最大化
-`:map <C-K> <C-W>k<C-W>_`
+`:map <C-J> <C-W>j<C-W>_` " 在分割窗口中快速切换
+
+`:map <C-K> <C-W>k<C-W>_` " 这是一个键盘绑定，把Ctrl-J定义成切换到下一个窗口并最大化
 
 `[I`     : 显示光标处的狭义字可以匹配的行(高级指令)
 " 译注：# 可以全文查找与光标处的狭义字相匹配的字，
 " 这在查找函数原型和实现，或者变量使用的时候很有用
+
+`:vnoremap < <gv`
+" 译释：:vnoremap 重定义了visual模式下 < 符号的含义 把它定义成 <gv 即：先<向外缩进，然后gv重新选择上一次选择了的区域这样在visual模式下就可以实现连续按<而连续缩进了
+
+`:vnoremap > >gv`
+" 同上，内缩
 
 # plugin
 
