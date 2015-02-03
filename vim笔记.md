@@ -54,7 +54,7 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 
 " mark and move
 
-`\'.`              : jump to the last modified line
+`'.`              : jump to the last modified line
 
 ``.`               : jump to the last modified point
 
