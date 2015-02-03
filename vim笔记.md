@@ -134,6 +134,11 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 
 " <CR> 回车，执行
 
+"This highlights the background in a subtle red for text that goes over the 80 column limit (subtle in GUI mode, anyway - in terminal mode it's less so
+
+```highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/```
+
 # plugin
 
 1. buffer explore
