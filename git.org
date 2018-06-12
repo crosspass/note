@@ -1,0 +1,27 @@
+* Commit message and Change log guideline
+https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.qkmr6ax7krfz
+
+** Commit message format
+#+BEGIN_SRC shell
+  <type>(<scope>): <subject>
+  //
+  <body>
+  //
+  <footer>
+#+END_SRC
+
+*** Header
+ 1. type
+  only 7 word
+  - feat
+  - fix
+  - docs
+  - style
+  - refactor
+  - test
+  - chore
+ 2. subject
+  - use imperative, present tense: “change” not “changed” nor “changes”
+  - don't capitalize first letter
+  - no dot (.) at the end
+
