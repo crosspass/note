@@ -50,3 +50,10 @@
 **  what's the require 'rails/test_help' ?
   https://github.com/rails/rails/blob/master/railties/lib/rails/test_help.rb
 
+
+* Mongoid
+HardwareNeed.all.includes(:businesses).to_a
+
+throw exeception:  undefined method bson_type
+
+

@@ -1,0 +1,12 @@
+* Ruby Source Code Dig
+
+** matz ruby verital machine
+
+      ruby file                VM(cruby)
+     *************            *********
+     *           *-----------> *       *
+     *************              *       *
+                                 *********
+
+*** VM(cruby):
+

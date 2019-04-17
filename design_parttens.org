@@ -1,0 +1,11 @@
+23 kinds of design partterns
+
+| builder         | structor    | behave         |   |   |
+|-----------------+-------------+----------------+---+---|
+| Factory         | Adapter     | Observe        |   |   |
+| Abstrac Factory | Composition | Command        |   |   |
+| Sigleton        | Facade      | Response chain |   |   |
+| Builer          | Iterator    |                |   |   |
+
+
+
