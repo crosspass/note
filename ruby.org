@@ -2,11 +2,13 @@
 
 ** matz ruby verital machine
 
+#+BEGIN_SRC shell
       ruby file                VM(cruby)
      *************            *********
      *           *-----------> *       *
      *************              *       *
                                  *********
+#+END_SRC
 
 *** VM(cruby):
 
