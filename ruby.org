@@ -12,3 +12,32 @@
 
 *** VM(cruby):
 
+#+BEGIN_SRC shell
+               ./autoconf                    ./configure
+/Makefile.ac  ------------>  ./Makeifile.in --------------> ./GNUmakefile
+#+END_SRC
+
+My computer enviroment is MacOS Mojave 10.14.3
+
+so let's dig Makefile
+
+share object libary
+
+#+BEGIN_SRC
+  tool/node_name.rb node.h
+       |             |
+       |             |
+       +-------------+
+             |
+             v
+        node_name.inc
+#+END_SRC
+
+* src
+node.h is for what?
+
+rb_ast_tree
+
+
+dir: tool/ruby/vm_/ generate *.inc files
+
