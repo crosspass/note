@@ -3,11 +3,12 @@
 ** matz ruby verital machine
 
 #+BEGIN_SRC shell
-      ruby file                VM(cruby)
+
+     ruby file                VM(cruby)
      *************            *********
      *           *-----------> *       *
-     *************              *       *
-                                 *********
+     *************              *********
+
 #+END_SRC
 
 *** VM(cruby):
@@ -41,3 +42,42 @@ rb_ast_tree
 
 dir: tool/ruby/vm_/ generate *.inc files
 
+
+#+BEGIN_SRC
+
+  +-----------+  bison      +-----+   yarv     +------+
+  | ruby code |----------->| ast |----------->| insn |
+  +-----------+            +-----+            +------+
+
+  example:
+
+  soruce e.rb
+
+  class A
+    def p
+      puts 'Hello ruby!'
+    end
+  end
+
+  type struct Function {
+    char * name;
+  }
+
+  type struct AST_NODE {
+    AST_NODE * next_node;
+    Function functions[]
+  }
+
+  constants table
+   type struct  {
+     char *name;     
+   } constant_t 
+
+   = CONSTANTS = 
+   +-------+
+   |'A'    |
+   +-------+
+
+#+END_SRC
+
+some simple ruby code translate into c language and execute
