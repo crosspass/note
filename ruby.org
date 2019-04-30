@@ -53,15 +53,25 @@ dir: tool/ruby/vm_/ generate *.inc files
 
   soruce e.rb
 
-  class A
+  class A                            rb_class_t A
     def p
-      puts 'Hello ruby!'
+      puts 'Hello ruby!'      --->   rb_method_t p
+    end
+                                     rb_method_t p2
+    def self.p2
+      puts 'Hello class ruby!'
     end
   end
 
-  type struct Function {
+  typedef struct {
     char * name;
-  }
+  } RbMethod;
+
+  typedef struct {
+    char * name;
+    Method class_methods[10];
+    Method methods[10];
+  } RbClass;
 
   type struct AST_NODE {
     AST_NODE * next_node;
