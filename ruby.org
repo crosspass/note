@@ -43,7 +43,7 @@ rb_ast_tree
 dir: tool/ruby/vm_/ generate *.inc files
 
 
-#+BEGIN_SRC
+#+BEGIN_SRC shell
 
   +-----------+  bison      +-----+   yarv     +------+
   | ruby code |----------->| ast |----------->| insn |
@@ -91,3 +91,131 @@ dir: tool/ruby/vm_/ generate *.inc files
 #+END_SRC
 
 some simple ruby code translate into c language and execute
+
+
+** main.c
+
+#+BEGIN_SRC c
+/*! Initializes the process for libruby.
+ *
+ * This function assumes this process is ruby(1) and it has just started.
+ * Usually programs that embed CRuby interpreter may not call this function,
+ * and may do their own initialization.
+ * argc and argv cannot be NULL.
+ */
+ruby_sysinit(int argc, char ** argv)
+
+set argc argv
+fill_standard_fds
+#+END_SRC
+
+vm.c
+
+rb_vm_struct
+
+#+BEGIN_SRC c
+  vm_core.h/rb_vm_t                     thread_pthread.h/rb_global_vm_lock_t      vm_core.h/rb_thread_struct
+              
+  +-------------------------+             +-------------------------+              +---------------------------+
+  | VALUE self              |             | rb_thread_struct *owner |------------->| list-node vmlt-node       |
+  | rb_global_vm_lock_t gvl |------------>|                                        | VALUE self                |---+
+  |                                                                                | rb_vm_t *vm               |   |
+  |                                                                                | rb_execution_context_t *ec|
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+
+   vm_core.h/rb_execution_context_t  
+  +---------------------------------------------------------------------------+
+  | VALUE *vm_stack                                                           |
+  | size_t vm_stack_size                                                      |
+  | rb_control_frame_t *cfp;                                                  |
+  | struct rb_vm_tag *tag;                                                    |
+  | struct rb_vm_protect_tag *protect_tag;                                    |
+  | /* interrupt flags */                                                     |
+  | rb_atomic_t interrupt_flag;                                               |
+  | rb_atomic_t interrupt_mask; /* size should match flag */                  |
+  | rb_fiber_t *fiber_ptr;                                                    |
+  | struct rb_thread_struct *thread_ptr;                                      |
+  | /* storage (ec (fiber) local) */                                          |
+  | st_table *local_storage;                                                  |
+  | VALUE local_storage_recursive_hash;                                       |
+  | VALUE local_storage_recursive_hash_for_trace;                             |
+  | /* eval env */                                                            |
+  | const VALUE *root_lep;                                                    |
+  | VALUE root_svar;                                                          |
+  | /* ensure & callcc */                                                     |
+  | rb_ensure_list_t *ensure_list;                                            |
+  | /* trace information */                                                   |
+  | struct rb_trace_arg_struct *trace_arg;                                    |
+  |  /* temporary places */                                                   |
+  | VALUE errinfo;                                                            |
+  | VALUE passed_block_handler; /* for rb_iterate */                          |
+  | uint8_t raised_flag; /* only 3 bits needed */                             |
+  | /* n.b. only 7 bits needed, really: */                                    |
+  | BITFIELD(enum method_missing_reason, method_missing_reason, 8);           |
+  | VALUE private_const_reference;                                            |
+  | /* for GC */                                                              |
+  | struct {                                                                  |
+  |   VALUE *stack_start;                                                     |
+  |	VALUE *stack_end;                                                     |
+  |	size_t stack_maxsize;                                                 |
+  | #ifdef __ia64                                                             |
+  |	VALUE *register_stack_start;                                          |
+  |	VALUE *register_stack_end;                                            |
+  |	size_t register_stack_maxsize;                                        |
+  | #endif                                                                    |
+  |	RUBY_ALIGNAS(SIZEOF_VALUE) jmp_buf regs;                              |
+  | } machine;                                                                |
+  +---------------------------------------------------------------------------+
+
+
+  vm_core.h/rb_control_frame_t
+
+  +--------------------------------------------------------------------------------------------------+
+  |  const VALUE *pc;		/* cfp[0] */                                                         |
+  |  VALUE *sp;			/* cfp[1] */                                                         |
+  |  const rb_iseq_t *iseq;	/* cfp[2] */                                                         |
+  |  VALUE self;		/* cfp[3] / block[0] */                                              |
+  |  const VALUE *ep;		/* cfp[4] / block[1] */                                              |
+  |  const void *block_code;    /* cfp[5] / block[2] */ /* iseq or ifunc */                          |
+  |  VALUE *__bp__;             /* cfp[6] */ /* outside vm_push_frame, use vm_base_ptr instead. */   |
+  | #if VM_DEBUG_BP_CHECK                                                                            |
+  |  VALUE *bp_check;		/* cfp[7] */                                                         |
+  | #endif                                                                                           |
+  +--------------------------------------------------------------------------------------------------+
+
+  vm_core.h/rb_vm_tag
+  +----------------------------+
+  | VALUE tag;                 | 
+  | VALUE retval;              |
+  | rb_jmpbuf_t buf;           |
+  | struct rb_vm_tag *prev;    |
+  | enum ruby_tag_type state;  |
+  +----------------------------+
+
+#+END_SRC
+
+
+
+
