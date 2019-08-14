@@ -214,6 +214,58 @@ rb_vm_struct
   | enum ruby_tag_type state;  |
   +----------------------------+
 
+
+  cont.c/rb_fiber_struct
+  +---------------------------------------------------------------------+
+  | rb_context_t cont;
+  | VALUE first_proc;
+  |  struct rb_fiber_struct *prev;
+  |  BITFIELD(enum fiber_status, status, 2);
+  |  /* If a fiber invokes "transfer",
+  |   * then this fiber can't "resume" any more after that.
+  |   * You shouldn't mix "transfer" and "resume".
+  |   */
+  |  unsigned int transferred : 1;
+  |
+  |#if FIBER_USE_NATIVE
+  |#if defined(FIBER_USE_COROUTINE)
+  |#define FIBER_ALLOCATE_STACK
+  |    coroutine_context context;
+  |    void *ss_sp;
+  |    size_t ss_size;
+  |#elif defined(_WIN32)
+  |    void *fib_handle;
+  |#else
+  |#define FIBER_ALLOCATE_STACK
+  |  ucontext_t context;
+  |  /* Because context.uc_stack.ss_sp and context.uc_stack.ss_size
+  |   * are not necessarily valid after makecontext() or swapcontext(),
+  |   * they are saved in these variables for later use.
+  |   */
+  |  void *ss_sp;
+  |  size_t ss_size;
+  |#endif
+  |#endif
+  +---------------------------------------------------------------------+
+
+  st.h/st_table
+  +--------------------------------------------------------------------+
+  |  /* Cached features of the table -- see st.c for more details.  */ |
+  |  unsigned char entry_power, bin_power, size_ind;                   |
+  |  /* How many times the table was rebuilt.  */                      |
+  |  unsigned int rebuilds_num;                                        |
+  |  const struct st_hash_type *type;                                  |
+  |  /* Number of entries currently in the table.  */                  |
+  |  st_index_t num_entries;                                           |
+  |  /* Array of bins used for access by keys.  */                     |
+  |  st_index_t *bins;                                                 |
+  |  /* Start and bound index of entries in array entries.             |
+  |     entries_starts and entries_bound are in interval               |
+  |     [0,allocated_entries].  */                                     |
+  |  st_index_t entries_start, entries_bound;                          |
+  |  /* Array of size 2^entry_power.  */                               |
+  |  st_table_entry *entries;                                          |
+  +--------------------------------------------------------------------+
 #+END_SRC
 
 
