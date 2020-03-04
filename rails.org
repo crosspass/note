@@ -1,2 +1,7 @@
+* Rails gems
+
 ** Sidekiq 
 - https://medium.com/clarisights/monitoring-and-reporting-errors-from-sidekiq-jobs-4b946036c9f4
+
+** factory_bot_rails
+
