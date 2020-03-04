@@ -1,7 +1,66 @@
+nvm use 11
 * Rails gems
 
-** Sidekiq 
+** Sidekiq
 - https://medium.com/clarisights/monitoring-and-reporting-errors-from-sidekiq-jobs-4b946036c9f4
 
 ** factory_bot_rails
+* Sidekiq
+- https://medium.com/clarisights/monitoring-and-reporting-errors-from-sidekiq-jobs-4b946036c9f4
+* A jounery on Rails Test
+  First let us look into Rake lib
+** RAKE – Ruby Make
+   # home
+   github.com/ruby/rake
+
+   # bugs
+   github.com/ruby/rake/issues
+
+   # docs
+   ruby.github.io/rake
+
+   Description
+   Rake is a Make-like program implemented in Ruby. Tasks and dependencies are specified in standard Ruby syntax.
+
+   Rake has the following features:
+
+   Rakefiles (rake's version of Makefiles) are completely defined in standard Ruby syntax. No XML files to edit. No quirky Makefile syntax to worry about (is that a tab or a space?)
+
+   Users can specify tasks with prerequisites.
+
+   Rake supports rule patterns to synthesize implicit tasks.
+
+   Flexible FileLists that act like arrays but know about manipulating file names and paths.
+
+   A library of prepackaged tasks to make building rakefiles easier. For example, tasks for building tarballs. (Formerly tasks for building RDoc, Gems and publishing to FTP were included in rake but they're now available in RDoc, RubyGems and respectively.)
+
+   Supports parallel execution of tasks.
+
+*** Rake Command Line Usage
+    #+SRC_BEGIN sh
+    % rake [options ...] [NAME=VALUE ...] [targets ...]
+    #+SRC_END
+*** Rakefile Format
+
+    First of all, there is no special format for a Rakefile. A Rakefile contains executable Ruby code. Anything legal in a ruby script is allowed in a Rakefile.
+
+    Now that we understand there is no special syntax in a Rakefile, there are some conventions that are used in a Rakefile that are a little unusual in a typical Ruby program. Since a Rakefile is tailored to specifying tasks and actions, the idioms used in a Rakefile are designed to support that.
+
+    So, what goes into a Rakefile?
+*** Tasks
+  Tasks are the main unit of work in a Rakefile. Tasks have a name (usually given as a symbol or a string), a list of prerequisites (more symbols or strings) and a list of actions (given as a block).
+
+** Minitest
+
+** when run rake test bin/rake test what's hapened?
+
+**  what's the require 'rails/test_help' ?
+  https://github.com/rails/rails/blob/master/railties/lib/rails/test_help.rb
+
+
+* Mongoid
+HardwareNeed.all.includes(:businesses).to_a
+
+throw exeception:  undefined method bson_type
+
 

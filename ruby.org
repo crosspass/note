@@ -1,0 +1,273 @@
+* Ruby Source Code Dig
+
+** matz ruby verital machine
+
+#+BEGIN_SRC shell
+
+     ruby file                VM(cruby)
+     *************            *********
+     *           *-----------> *       *
+     *************              *********
+
+#+END_SRC
+
+*** VM(cruby):
+
+#+BEGIN_SRC shell
+               ./autoconf                    ./configure
+/Makefile.ac  ------------>  ./Makeifile.in --------------> ./GNUmakefile
+#+END_SRC
+
+My computer enviroment is MacOS Mojave 10.14.3
+
+so let's dig Makefile
+
+share object libary
+
+#+BEGIN_SRC
+  tool/node_name.rb node.h
+       |             |
+       |             |
+       +-------------+
+             |
+             v
+        node_name.inc
+#+END_SRC
+
+* src
+node.h is for what?
+
+rb_ast_tree
+
+
+dir: tool/ruby/vm_/ generate *.inc files
+
+
+#+BEGIN_SRC shell
+
+  +-----------+  bison      +-----+   yarv     +------+
+  | ruby code |----------->| ast |----------->| insn |
+  +-----------+            +-----+            +------+
+
+  example:
+
+  soruce e.rb
+
+  class A                            rb_class_t A
+    def p
+      puts 'Hello ruby!'      --->   rb_method_t p
+    end
+                                     rb_method_t p2
+    def self.p2
+      puts 'Hello class ruby!'
+    end
+  end
+
+  typedef struct {
+    char * name;
+  } RbMethod;
+
+  typedef struct {
+    char * name;
+    Method class_methods[10];
+    Method methods[10];
+  } RbClass;
+
+  type struct AST_NODE {
+    AST_NODE * next_node;
+    Function functions[]
+  }
+
+  constants table
+   type struct  {
+     char *name;     
+   } constant_t 
+
+   = CONSTANTS = 
+   +-------+
+   |'A'    |
+   +-------+
+
+#+END_SRC
+
+some simple ruby code translate into c language and execute
+
+
+** main.c
+
+#+BEGIN_SRC c
+/*! Initializes the process for libruby.
+ *
+ * This function assumes this process is ruby(1) and it has just started.
+ * Usually programs that embed CRuby interpreter may not call this function,
+ * and may do their own initialization.
+ * argc and argv cannot be NULL.
+ */
+ruby_sysinit(int argc, char ** argv)
+
+set argc argv
+fill_standard_fds
+#+END_SRC
+
+vm.c
+
+rb_vm_struct
+
+#+BEGIN_SRC c
+  vm_core.h/rb_vm_t                     thread_pthread.h/rb_global_vm_lock_t      vm_core.h/rb_thread_struct
+              
+  +-------------------------+             +-------------------------+              +---------------------------+
+  | VALUE self              |             | rb_thread_struct *owner |------------->| list-node vmlt-node       |
+  | rb_global_vm_lock_t gvl |------------>|                                        | VALUE self                |---+
+  |                                                                                | rb_vm_t *vm               |   |
+  |                                                                                | rb_execution_context_t *ec|
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+  |
+
+   vm_core.h/rb_execution_context_t  
+  +---------------------------------------------------------------------------+
+  | VALUE *vm_stack                                                           |
+  | size_t vm_stack_size                                                      |
+  | rb_control_frame_t *cfp;                                                  |
+  | struct rb_vm_tag *tag;                                                    |
+  | struct rb_vm_protect_tag *protect_tag;                                    |
+  | /* interrupt flags */                                                     |
+  | rb_atomic_t interrupt_flag;                                               |
+  | rb_atomic_t interrupt_mask; /* size should match flag */                  |
+  | rb_fiber_t *fiber_ptr;                                                    |
+  | struct rb_thread_struct *thread_ptr;                                      |
+  | /* storage (ec (fiber) local) */                                          |
+  | st_table *local_storage;                                                  |
+  | VALUE local_storage_recursive_hash;                                       |
+  | VALUE local_storage_recursive_hash_for_trace;                             |
+  | /* eval env */                                                            |
+  | const VALUE *root_lep;                                                    |
+  | VALUE root_svar;                                                          |
+  | /* ensure & callcc */                                                     |
+  | rb_ensure_list_t *ensure_list;                                            |
+  | /* trace information */                                                   |
+  | struct rb_trace_arg_struct *trace_arg;                                    |
+  |  /* temporary places */                                                   |
+  | VALUE errinfo;                                                            |
+  | VALUE passed_block_handler; /* for rb_iterate */                          |
+  | uint8_t raised_flag; /* only 3 bits needed */                             |
+  | /* n.b. only 7 bits needed, really: */                                    |
+  | BITFIELD(enum method_missing_reason, method_missing_reason, 8);           |
+  | VALUE private_const_reference;                                            |
+  | /* for GC */                                                              |
+  | struct {                                                                  |
+  |   VALUE *stack_start;                                                     |
+  |	VALUE *stack_end;                                                     |
+  |	size_t stack_maxsize;                                                 |
+  | #ifdef __ia64                                                             |
+  |	VALUE *register_stack_start;                                          |
+  |	VALUE *register_stack_end;                                            |
+  |	size_t register_stack_maxsize;                                        |
+  | #endif                                                                    |
+  |	RUBY_ALIGNAS(SIZEOF_VALUE) jmp_buf regs;                              |
+  | } machine;                                                                |
+  +---------------------------------------------------------------------------+
+
+
+  vm_core.h/rb_control_frame_t
+
+  +--------------------------------------------------------------------------------------------------+
+  |  const VALUE *pc;		/* cfp[0] */                                                         |
+  |  VALUE *sp;			/* cfp[1] */                                                         |
+  |  const rb_iseq_t *iseq;	/* cfp[2] */                                                         |
+  |  VALUE self;		/* cfp[3] / block[0] */                                              |
+  |  const VALUE *ep;		/* cfp[4] / block[1] */                                              |
+  |  const void *block_code;    /* cfp[5] / block[2] */ /* iseq or ifunc */                          |
+  |  VALUE *__bp__;             /* cfp[6] */ /* outside vm_push_frame, use vm_base_ptr instead. */   |
+  | #if VM_DEBUG_BP_CHECK                                                                            |
+  |  VALUE *bp_check;		/* cfp[7] */                                                         |
+  | #endif                                                                                           |
+  +--------------------------------------------------------------------------------------------------+
+
+  vm_core.h/rb_vm_tag
+  +----------------------------+
+  | VALUE tag;                 | 
+  | VALUE retval;              |
+  | rb_jmpbuf_t buf;           |
+  | struct rb_vm_tag *prev;    |
+  | enum ruby_tag_type state;  |
+  +----------------------------+
+
+
+  cont.c/rb_fiber_struct
+  +---------------------------------------------------------------------+
+  | rb_context_t cont;
+  | VALUE first_proc;
+  |  struct rb_fiber_struct *prev;
+  |  BITFIELD(enum fiber_status, status, 2);
+  |  /* If a fiber invokes "transfer",
+  |   * then this fiber can't "resume" any more after that.
+  |   * You shouldn't mix "transfer" and "resume".
+  |   */
+  |  unsigned int transferred : 1;
+  |
+  |#if FIBER_USE_NATIVE
+  |#if defined(FIBER_USE_COROUTINE)
+  |#define FIBER_ALLOCATE_STACK
+  |    coroutine_context context;
+  |    void *ss_sp;
+  |    size_t ss_size;
+  |#elif defined(_WIN32)
+  |    void *fib_handle;
+  |#else
+  |#define FIBER_ALLOCATE_STACK
+  |  ucontext_t context;
+  |  /* Because context.uc_stack.ss_sp and context.uc_stack.ss_size
+  |   * are not necessarily valid after makecontext() or swapcontext(),
+  |   * they are saved in these variables for later use.
+  |   */
+  |  void *ss_sp;
+  |  size_t ss_size;
+  |#endif
+  |#endif
+  +---------------------------------------------------------------------+
+
+  st.h/st_table
+  +--------------------------------------------------------------------+
+  |  /* Cached features of the table -- see st.c for more details.  */ |
+  |  unsigned char entry_power, bin_power, size_ind;                   |
+  |  /* How many times the table was rebuilt.  */                      |
+  |  unsigned int rebuilds_num;                                        |
+  |  const struct st_hash_type *type;                                  |
+  |  /* Number of entries currently in the table.  */                  |
+  |  st_index_t num_entries;                                           |
+  |  /* Array of bins used for access by keys.  */                     |
+  |  st_index_t *bins;                                                 |
+  |  /* Start and bound index of entries in array entries.             |
+  |     entries_starts and entries_bound are in interval               |
+  |     [0,allocated_entries].  */                                     |
+  |  st_index_t entries_start, entries_bound;                          |
+  |  /* Array of size 2^entry_power.  */                               |
+  |  st_table_entry *entries;                                          |
+  +--------------------------------------------------------------------+
+#+END_SRC
+
+
+
+

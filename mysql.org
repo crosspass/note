@@ -1,2 +1,3 @@
 * about index
 ** MySQL索引背后的数据结构及算法原理 http://blog.codinglabs.org/articles/theory-of-mysql-index.html
+** MySQL data directory to a new location https://www.digitalocean.com/community/tutorials/how-to-move-a-mysql-data-directory-to-a-new-location-on-ubuntu-16-04
